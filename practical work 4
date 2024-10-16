@@ -1,1 +1,97 @@
+import requests
+import json
+import random
 
+BASE_URL = "https://rickandmortyapi.com/api"
+
+def get_random_character():
+    """Получение случайного персонажа."""
+    response = requests.get(f"{BASE_URL}/character/{random.randint(1, 826)}")
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print(f"Ошибка получения персонажа: {response.status_code}")
+        return None
+
+def search_character_by_name(name):
+    """Поиск персонажей по имени."""
+    response = requests.get(f"{BASE_URL}/character/?name={name}")
+    if response.status_code == 200:
+        return response.json().get("results", [])
+    else:
+        print(f"Ошибка поиска персонажа: {response.status_code}")
+        return None
+
+def get_all_locations():
+    """Получение списка всех локаций."""
+    locations = []
+    page = 1
+    while True:
+        response = requests.get(f"{BASE_URL}/location/?page={page}")
+        if response.status_code == 200:
+            data = response.json()
+            locations.extend(data.get("results", []))
+            if data['info']['next'] is None:
+                break
+            page += 1
+        else:
+            print(f"Ошибка получения локаций: {response.status_code}")
+            return None
+    return locations
+
+def search_episodes_by_name(name):
+    """Поиск эпизодов по названию."""
+    response = requests.get(f"{BASE_URL}/episode/?name={name}")
+    if response.status_code == 200:
+        return response.json().get("results", [])
+    else:
+        print(f"Ошибка поиска эпизодов: {response.status_code}")
+        return None
+
+def main():
+    while True:
+        print("\n1. Получить информацию о случайном персонаже")
+        print("2. Поиск персонажей по имени")
+        print("3. Получить список всех локаций")
+        print("4. Поиск эпизодов по названию")
+        print("5. Выход")
+        
+        choice = input("Выберите опцию (1-5): ")
+        
+        if choice == '1':
+            character = get_random_character()
+            if character:
+                print(json.dumps(character, indent=4))
+        
+        elif choice == '2':
+            name = input("Введите имя персонажа: ")
+            characters = search_character_by_name(name)
+            if characters:
+                print(json.dumps(characters, indent=4))
+            else:
+                print("Персонажи не найдены.")
+        
+        elif choice == '3':
+            locations = get_all_locations()
+            if locations:
+                print(json.dumps(locations, indent=4))
+            else:
+                print("Не удалось получить список локаций.")
+        
+        elif choice == '4':
+            name = input("Введите название эпизода: ")
+            episodes = search_episodes_by_name(name)
+            if episodes:
+                print(json.dumps(episodes, indent=4))
+            else:
+                print("Эпизоды не найдены.")
+        
+        elif choice == '5':
+            print("Выход из программы.")
+            break
+        
+        else:
+            print("Некорректный выбор. Попробуйте снова.")
+
+if __name__ == "__main__":
+    main()
