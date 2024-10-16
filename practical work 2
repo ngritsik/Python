@@ -1,0 +1,121 @@
+# Первое задание
+def analyze_list(lst): 
+    if not all(isinstance(x, (int, float)) for x in lst):
+        return "Ошибка: Все элементы списка должны быть числами."
+    if not lst:
+        return "Ошибка: Список пуст."
+    
+    sorted_lst = sorted(lst)
+    max_value = max(lst)
+    min_value = min(lst)
+    avg_value = sum(lst) / len(lst)
+    
+    # Вычисление медианы:
+    n = len(sorted_lst)
+    if n % 2 == 0:
+        med_value = (sorted_lst[n // 2 - 1] + sorted_lst[n // 2]) / 2
+    else:
+        med_value = sorted_lst[n // 2]
+    
+    return {
+        'max': max_value,
+        'min': min_value,
+        'avg': avg_value,
+        'med': med_value
+    }
+
+# Второе задание
+def reverse_words(words):
+    if not all(isinstance(word, str) for word in words):
+        return "Ошибка: Все элементы списка должны быть строками."
+    
+    return words[::-1]
+
+def sort_words_by_length(words):
+    if not all(isinstance(word, str) for word in words):
+        return "Ошибка: Все элементы списка должны быть строками."
+    
+    return sorted(words, key=len)
+
+# Третье задание
+
+student = {
+    'name': '',
+    'age': 0,
+    'grades': []
+}
+
+def average_grade(student):
+    if 'grades' not in student or not all(isinstance(grade, (int, float)) for grade in student['grades']):
+        return "Ошибка: Оценки должны быть числовыми."
+    
+    grades = student['grades']
+    return sum(grades) / len(grades)
+
+# Четвертое задание
+
+phonebook = {
+    '123-4567': 'Alice',
+    '987-6543': 'Bob',
+    '555-2368': 'Charlie'
+}
+
+def reverse_lookup(name):
+    for number, person in phonebook.items():
+        if person == name:
+            return number
+    return "Ошибка: Имя не найдено."
+
+# Пятое задание
+
+def tuple_stats(tpl):
+    if not all(isinstance(x, (int, float)) for x in tpl):
+        return "Ошибка: Все элементы кортежа должны быть числами."
+    
+    total_sum = sum(tpl)
+    avg_value = total_sum / len(tpl)
+    unique_elements = tuple(set(tpl))
+    
+    return total_sum, avg_value, unique_elements
+
+# Основная программа для ввода данных
+
+def main():
+    # Первое задание: Ввод списка чисел
+    lst = input("Введите список чисел через пробел: ").split()
+    try:
+        lst = [float(x) for x in lst]
+        print("Анализ списка:", analyze_list(lst))
+    except ValueError:
+        print("Ошибка: Все элементы должны быть числами.")
+    
+    # Второе задание: Ввод списка слов
+    words = input("Введите список слов через пробел: ").split()
+    print("Слова в обратном порядке:", reverse_words(words))
+    print("Слова, отсортированные по длине:", sort_words_by_length(words))
+    
+    # Третье задание: Ввод данных студента
+    student['name'] = input("Введите имя студента: ")
+    try:
+        student['age'] = int(input("Введите возраст студента: "))
+        grades_input = input("Введите список оценок через пробел: ").split()
+        student['grades'] = [int(x) for x in grades_input]
+        print(f"Средняя оценка студента {student['name']}:", average_grade(student))
+    except ValueError:
+        print("Ошибка: Возраст и оценки должны быть числовыми.")
+    
+    # Четвертое задание: Поиск номера телефона по имени
+    name = input("Введите имя для поиска номера телефона: ")
+    print("Номер телефона:", reverse_lookup(name))
+    
+    # Пятое задание: Ввод кортежа чисел
+    tpl_input = input("Введите числа для кортежа через пробел: ").split()
+    try:
+        tpl = tuple(float(x) for x in tpl_input)
+        print("Статистика по кортежу:", tuple_stats(tpl))
+    except ValueError:
+        print("Ошибка: Все элементы должны быть числами.")
+    
+# Запуск программы
+if __name__ == "__main__":
+    main()
