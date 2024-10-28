@@ -1,20 +1,16 @@
-from datetime import datetime, timedelta
-import os
-import time
+# задание 1
+from datetime import datetime
 
-# Задание 1: Работа с датой и временем
 def datetime_info(date_str):
-    date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+    date = datetime.strptime(date_str, '%Y-%m-%d')
     
-    # Форматирование даты
-    formatted_date = date_obj.strftime('%d-%m-%Y')
+    formatted_date = date.strftime('%d-%m-%Y')
     
-    # Получение дня недели
-    day_of_week = date_obj.strftime('%A')
+    days_of_week = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
+    day_of_week = days_of_week[date.weekday()]
     
-    # Количество дней до следующего года
-    next_year = datetime(date_obj.year + 1, 1, 1)
-    days_until_next_year = (next_year - date_obj).days
+    next_year = datetime(date.year + 1, 1, 1)
+    days_until_next_year = (next_year - date).days
     
     return {
         'Дата': formatted_date,
@@ -22,57 +18,58 @@ def datetime_info(date_str):
         'Дней до следующего года': days_until_next_year
     }
 
-# Задание 2: Чтение и запись в файл
+print(datetime_info('2023-10-28'))
+
+
+# задание 2
 def write_and_read_file(filename, content):
-    # Запись в файл
-    with open(filename, 'w') as file:
+    with open(filename, 'w', encoding='utf-8') as file:
         file.write(content)
     
-    # Чтение из файла
-    with open(filename, 'r') as file:
-        return file.read()
+    with open(filename, 'r', encoding='utf-8') as file:
+        result = file.read()
+    
+    return result
 
-# Задание 3: Работа с каталогами
+print(write_and_read_file('example.txt', 'Привет, мир!'))
+
+
+#задание 3
+import os
+
 def list_files_in_directory(directory_path):
-    # Получение списка файлов в каталоге
-    return [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
+    files = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
+    return files
 
-# Задание 4: Проверка и создание каталогов
+print(list_files_in_directory('')) 
+
+
+#задание 4
+import os
+
 def ensure_directory_exists(directory_path):
-    # Проверка существования каталога
     if not os.path.exists(directory_path):
+        # Если не существует, создаем его
         os.makedirs(directory_path)
 
-# Задание 5: Работа с мета-данными файлов
+ensure_directory_exists('')  
+
+
+#задание 5
+import os
+from datetime import datetime
+
 def file_stats(filepath):
-    # Получение информации о файле
-    file_info = os.stat(filepath)
+    file_size = os.path.getsize(filepath)
+    
+    last_modified_time = datetime.fromtimestamp(os.path.getmtime(filepath)).strftime('%Y-%m-%d %H:%M:%S')
+    
+    file_name, file_extension = os.path.splitext(os.path.basename(filepath))
     
     return {
-        'Размер (в байтах)': file_info.st_size,
-        'Время последнего изменения': time.ctime(file_info.st_mtime),
-        'Название': os.path.basename(filepath),
-        'Расширение': os.path.splitext(filepath)[1]
+        'Размер файла (байты)': file_size,
+        'Время последнего изменения': last_modified_time,
+        'Название файла': file_name,
+        'Расширение файла': file_extension
     }
 
-# Пример использования функций
-if __name__ == "__main__":
-    # Задание 1
-    date_info = datetime_info('2024-10-16')
-    print("Информация о дате:", date_info)
-    
-    # Задание 2
-    output = write_and_read_file('example.txt', 'Hello')
-    print("Содержимое файла:", output)
-    
-    # Задание 3
-    files = list_files_in_directory('.')
-    print("Файлы в текущем каталоге:", files)
-    
-    # Задание 4
-    ensure_directory_exists('new_directory')
-    print("Каталог 'new_directory' был создан или уже существует.")
-    
-    # Задание 5
-    stats = file_stats('example.txt')
-    print("Метаданные файла:", stats)
