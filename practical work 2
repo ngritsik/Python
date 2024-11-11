@@ -6,18 +6,18 @@ def analyze_list(lst):
         return "Ошибка: Список пуст."
     
     sorted_lst = sorted(lst)
-    max_value = max(lst)
-    min_value = min(lst)
-    avg_value = sum(lst) / len(lst)
+    max_value = max(lst) # показывает максимальное число
+    min_value = min(lst) # показывает минимальное число
+    avg_value = sum(lst) / len(lst) # показывает среднее число
     
-    # Вычисление медианы:
+    # Вычисляет медиану этих чисел
     n = len(sorted_lst)
     if n % 2 == 0:
         med_value = (sorted_lst[n // 2 - 1] + sorted_lst[n // 2]) / 2
     else:
         med_value = sorted_lst[n // 2]
     
-    return {
+    return { #Выводит результат
         'max': max_value,
         'min': min_value,
         'avg': avg_value,
@@ -25,9 +25,9 @@ def analyze_list(lst):
     }
 
 # Второе задание
-def reverse_words(words):
+def reverse_words(words): #запускается программа в которой вписываем слова
     if not all(isinstance(word, str) for word in words):
-        return "Ошибка: Все элементы списка должны быть строками."
+        return "Ошибка: Все элементы списка должны быть строками." # выдает ошибку и запускает код заново
     
     return words[::-1]
 
@@ -39,8 +39,8 @@ def sort_words_by_length(words):
 
 # Третье задание
 
-student = {
-    'name': '',
+student = { # создаем информацию о студентке, имя, возраст, оценки
+    'name': '', 
     'age': 0,
     'grades': []
 }
@@ -54,13 +54,13 @@ def average_grade(student):
 
 # Четвертое задание
 
-phonebook = {
-    '123-4567': 'Alice',
-    '987-6543': 'Bob',
-    '555-2368': 'Charlie'
+phonebook = { #записываем номер телефонов и имена владельцев
+    '123-4567': 'Nikita',
+    '987-6543': 'Danila',
+    '555-5555': 'Vladimir'
 }
 
-def reverse_lookup(name):
+def reverse_lookup(name): #вводин имя он выводит номер телефона
     for number, person in phonebook.items():
         if person == name:
             return number
@@ -81,7 +81,7 @@ def tuple_stats(tpl):
 # Основная программа для ввода данных
 
 def main():
-    # Первое задание: Ввод списка чисел
+    # Первое задание
     lst = input("Введите список чисел через пробел: ").split()
     try:
         lst = [float(x) for x in lst]
@@ -89,12 +89,12 @@ def main():
     except ValueError:
         print("Ошибка: Все элементы должны быть числами.")
     
-    # Второе задание: Ввод списка слов
+    # Второе задание
     words = input("Введите список слов через пробел: ").split()
     print("Слова в обратном порядке:", reverse_words(words))
     print("Слова, отсортированные по длине:", sort_words_by_length(words))
     
-    # Третье задание: Ввод данных студента
+    # Третье задание
     student['name'] = input("Введите имя студента: ")
     try:
         student['age'] = int(input("Введите возраст студента: "))
@@ -104,11 +104,11 @@ def main():
     except ValueError:
         print("Ошибка: Возраст и оценки должны быть числовыми.")
     
-    # Четвертое задание: Поиск номера телефона по имени
+    # Четвертое задание
     name = input("Введите имя для поиска номера телефона: ")
     print("Номер телефона:", reverse_lookup(name))
     
-    # Пятое задание: Ввод кортежа чисел
+    # Пятое задание
     tpl_input = input("Введите числа для кортежа через пробел: ").split()
     try:
         tpl = tuple(float(x) for x in tpl_input)
